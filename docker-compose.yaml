@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "7000:5000"  # Host port 3000 maps to container port 5000
+    restart: always
+    environment:
+      NODE_ENV: production
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"  # Host port 8080 maps to container port 80
+    restart: always
+    volumes:
+      - ./frontend:/app
