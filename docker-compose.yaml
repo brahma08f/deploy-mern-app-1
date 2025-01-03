@@ -1,28 +1,14 @@
-version: '3.8'
-
+version: "3.8"
 services:
-  backend:
-    build: ./backend  # Path to your backend directory where the Dockerfile is located
-    ports:
-      - "7000:5000"  # Map host port 7000 to container port 5000
-    restart: always
-    environment:
-      NODE_ENV: production
-    volumes:
-      - ./backend:/app  # Mount the backend directory to the container
-    networks:
-      - my-network
-
   frontend:
-    build: ./frontend  # Path to your frontend directory where the Dockerfile is located
+    build:
+      context: ./frontend
     ports:
-      - "3000:80"  # Map host port 3000 to container port 80 (served by Nginx)
-    restart: always
-    volumes:
-      - ./frontend:/app  # Mount the frontend directory to the container
-    networks:
-      - my-network
-
-networks:
-  my-network:
-    driver: bridge
+      - "80:3000"
+    depends_on:
+      - backend
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
